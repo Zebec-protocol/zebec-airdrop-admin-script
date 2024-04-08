@@ -4,7 +4,14 @@ import * as fs from "fs";
 import path from "path";
 
 import { Address, Program, translateAddress } from "@coral-xyz/anchor";
-import { Connection, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
+import {
+	ComputeBudgetProgram,
+	Connection,
+	PublicKey,
+	SystemProgram,
+	TransactionMessage,
+	VersionedTransaction,
+} from "@solana/web3.js";
 
 import { AIRDROP_PROGRAM_ID, PROGRAM_SEEDS } from "./constants";
 import { tokenHoldersCsvToObject } from "./csv2Json";
@@ -77,11 +84,20 @@ export async function whitelistTokenHolder(
 					.instruction();
 			}),
 		);
+		const modifyComputeUnits = ComputeBudgetProgram.setComputeUnitLimit({
+			units: 160000,
+		});
+		const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
+			microLamports: 1800000,
+		});
 		const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
-		const tx = new Transaction().add(...ixs);
-		tx.feePayer = provider.publicKey;
-		tx.recentBlockhash = blockhash;
-		tx.lastValidBlockHeight = lastValidBlockHeight;
+		const message = new TransactionMessage({
+			instructions: [modifyComputeUnits, addPriorityFee, ...ixs],
+			payerKey: provider.publicKey,
+			recentBlockhash: blockhash,
+		}).compileToV0Message();
+
+		const tx = new VersionedTransaction(message);
 
 		const signed = await provider.wallet.signTransaction(tx);
 
