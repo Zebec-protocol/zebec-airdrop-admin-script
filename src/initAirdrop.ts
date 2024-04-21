@@ -50,7 +50,9 @@ export async function initAirdrop(
 	const admin = provider.publicKey;
 
 	const zebecAirdropPda = deriveZebecAirdropPda(eventName, program.programId);
+	console.log("zebec airdrop pda:", zebecAirdropPda.toString());
 	const airdropVault = deriveZebecAirdropVaultPda(zebecAirdropPda, program.programId);
+	console.log("airdropVault:", airdropVault.toString());
 
 	const parsedAirdropAmountPerNft = new BN(
 		BigNumber(airdropAmountPerNft)
