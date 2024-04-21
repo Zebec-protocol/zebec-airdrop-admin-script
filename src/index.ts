@@ -1,29 +1,25 @@
 import { PublicKey } from "@solana/web3.js";
 
 import { getConnection } from "./utils";
-import { whitelistNftHolder } from "./whitelistNftHolders";
 import { whitelistTokenHolder } from "./whitelistTokenHolders";
 
 async function main() {
 	const connection = getConnection("devnet");
 
-	const zebecAirdropPda = new PublicKey("7yeGm8LN6Kd3s7i3jgBkJy4eJepqkDvy4djkQPn3xXeQ");
-	const zebecAirdropTokenDecimals = 9;
-	const chunkSize = 10;
+	const eventName = "Zebec Giveaway Airdrop";
+	const airdropToken = new PublicKey("5qEhjfVc5C6bz1Vi7Uj5SiSeDvqsMtZwuVS9njoVPcRr");
+	const airdropTokenDecimals = 9;
+	const airdropAmountPerNft = 1000;
 
-	// await createLookupTableAccount(connection, zebecAirdropPda);
+	// await initAirdrop(connection, eventName, airdropToken, airdropTokenDecimals, airdropAmountPerNft);
 
+	// await createLookupTableAccount(connection);
 	// const lookupTableAddress = new PublicKey("ALhW7w7qY9Yrf5wF59M6JDzrqna7N5oEpMbwkKCRBwmT");
 
-	await whitelistTokenHolder(
-		connection,
-		zebecAirdropPda,
-		"tokenHolders.csv",
-		chunkSize,
-		zebecAirdropTokenDecimals,
-	);
+	const chunkSize = 10;
+	await whitelistTokenHolder(connection, "tokenHolders.csv", chunkSize, airdropTokenDecimals);
 
-	await whitelistNftHolder(connection, zebecAirdropPda, "nftHolders.csv", chunkSize);
+	// await whitelistNftHolder(connection, "nftHolders.csv", chunkSize);
 }
 
 main();

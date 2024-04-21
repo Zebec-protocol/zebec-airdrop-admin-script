@@ -34,7 +34,6 @@ function deriveZebecNftHolderPda(
 
 export async function whitelistNftHolder(
 	connection: Connection,
-	zebecAirdropPda: PublicKey,
 	csvFileName: string,
 	chunkSize: number,
 ) {
@@ -42,6 +41,12 @@ export async function whitelistNftHolder(
 	const program = new Program(IDL, AIRDROP_PROGRAM_ID, provider);
 
 	const admin = provider.publicKey;
+
+	const pdaFile = fs.readFileSync(
+		path.resolve(__dirname, "zebecAirdropPda", "address.json"),
+		"utf-8",
+	);
+	const zebecAirdropPda = new PublicKey(JSON.parse(pdaFile).zebecAirdropPda);
 
 	const file = fs.readFileSync(path.resolve(__dirname, "inputs", csvFileName), "utf-8");
 	const nftHoldersDataList = nftHoldersCsvToObject(file);
@@ -75,7 +80,7 @@ export async function whitelistNftHolder(
 			}),
 		);
 		const modifyComputeUnits = ComputeBudgetProgram.setComputeUnitLimit({
-			units: 160000,
+			units: 180000,
 		});
 		const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
 			microLamports: 1800000,

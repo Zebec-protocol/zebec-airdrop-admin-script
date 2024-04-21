@@ -1,3 +1,6 @@
+import * as fs from "fs";
+import path from "path";
+
 import { Program } from "@coral-xyz/anchor";
 import {
 	AddressLookupTableProgram,
@@ -12,11 +15,17 @@ import { AIRDROP_PROGRAM_ID } from "./constants";
 import { IDL } from "./idl";
 import { getProvider, tryParseError } from "./utils";
 
-export async function createLookupTableAccount(connection: Connection, zebecAirdropPda: PublicKey) {
+export async function createLookupTableAccount(connection: Connection) {
 	const provider = getProvider(connection);
 	const program = new Program(IDL, AIRDROP_PROGRAM_ID, provider);
 
 	const admin = provider.publicKey;
+
+	const pdaFile = fs.readFileSync(
+		path.resolve(__dirname, "zebecAirdropPda", "address.json"),
+		"utf-8",
+	);
+	const zebecAirdropPda = new PublicKey(JSON.parse(pdaFile).zebecAirdropPda);
 
 	const slot = await connection.getSlot();
 	const [createLookupTableIx, lookupTableAddress] = AddressLookupTableProgram.createLookupTable({
