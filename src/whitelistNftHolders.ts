@@ -56,6 +56,8 @@ export async function whitelistNftHolder(
 	console.log("chunk list count:", chunkList.length);
 
 	for (let i = 0; i < chunkList.length; i++) {
+		console.log("chunk index:", i);
+
 		const chunk = chunkList[i];
 		const ixs = await Promise.all(
 			chunk.map(async (data) => {
