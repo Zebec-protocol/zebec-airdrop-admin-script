@@ -21,7 +21,7 @@ import {
 	tryParseError,
 } from "./utils";
 
-function deriveZebecAirdropPda(airdropEventName: string, programId: PublicKey): PublicKey {
+export function deriveZebecAirdropPda(airdropEventName: string, programId: PublicKey): PublicKey {
 	const [address] = PublicKey.findProgramAddressSync(
 		[Buffer.from(PROGRAM_SEEDS.airdropPda), utils.bytes.utf8.encode(airdropEventName)],
 		programId,
@@ -29,7 +29,10 @@ function deriveZebecAirdropPda(airdropEventName: string, programId: PublicKey): 
 	return address;
 }
 
-function deriveZebecAirdropVaultPda(zebecAirdropPda: PublicKey, programId: PublicKey): PublicKey {
+export function deriveZebecAirdropVaultPda(
+	zebecAirdropPda: PublicKey,
+	programId: PublicKey,
+): PublicKey {
 	const [address] = PublicKey.findProgramAddressSync(
 		[Buffer.from(PROGRAM_SEEDS.airdropVault), zebecAirdropPda.toBuffer()],
 		programId,
