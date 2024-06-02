@@ -223,6 +223,62 @@ export type ZebecAirdrop = {
 				},
 			];
 		},
+		{
+			name: "withdrawAirdrop";
+			accounts: [
+				{
+					name: "admin";
+					isMut: true;
+					isSigner: true;
+				},
+				{
+					name: "adminAta";
+					isMut: true;
+					isSigner: false;
+				},
+				{
+					name: "airdropVault";
+					isMut: true;
+					isSigner: false;
+				},
+				{
+					name: "airdropVaultAta";
+					isMut: true;
+					isSigner: false;
+				},
+				{
+					name: "zebecAirdropPda";
+					isMut: true;
+					isSigner: false;
+				},
+				{
+					name: "airdropToken";
+					isMut: false;
+					isSigner: false;
+				},
+				{
+					name: "systemProgram";
+					isMut: false;
+					isSigner: false;
+				},
+				{
+					name: "tokenProgram";
+					isMut: false;
+					isSigner: false;
+				},
+				{
+					name: "associatedTokenProgram";
+					isMut: false;
+					isSigner: false;
+				},
+			];
+			args: [
+				{
+					name: "amount";
+					type: "u64";
+				},
+			];
+		},
 	];
 	accounts: [
 		{
@@ -615,6 +671,62 @@ export const IDL: ZebecAirdrop = {
 					type: {
 						defined: "TokenHolderParams",
 					},
+				},
+			],
+		},
+		{
+			name: "withdrawAirdrop",
+			accounts: [
+				{
+					name: "admin",
+					isMut: true,
+					isSigner: true,
+				},
+				{
+					name: "adminAta",
+					isMut: true,
+					isSigner: false,
+				},
+				{
+					name: "airdropVault",
+					isMut: true,
+					isSigner: false,
+				},
+				{
+					name: "airdropVaultAta",
+					isMut: true,
+					isSigner: false,
+				},
+				{
+					name: "zebecAirdropPda",
+					isMut: true,
+					isSigner: false,
+				},
+				{
+					name: "airdropToken",
+					isMut: false,
+					isSigner: false,
+				},
+				{
+					name: "systemProgram",
+					isMut: false,
+					isSigner: false,
+				},
+				{
+					name: "tokenProgram",
+					isMut: false,
+					isSigner: false,
+				},
+				{
+					name: "associatedTokenProgram",
+					isMut: false,
+					isSigner: false,
+				},
+			],
+			args: [
+				{
+					name: "amount",
+					type: "u64",
 				},
 			],
 		},
